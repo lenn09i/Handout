@@ -4,18 +4,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Handout</title>
-    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js"
-            data-cbid="09711f6c-b009-4941-889e-121fd7952146"
-            data-blockingmode="auto" type="text/javascript"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin-top: 100px;
         }
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            background-color: #007BFF;
+            color: white;
+        }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <h1>Danke, das war's schon!</h1>
+    <div id="banner">
+        <h2>🍪 Wir verwenden Cookies</h2>
+        <p>Bitte wähle deine Datenschutzpräferenzen:</p>
+        <button class="button" onclick="submitChoice('Alle akzeptieren')">Alle akzeptieren</button>
+        <button class="button" onclick="submitChoice('Personalisieren')">Personalisieren</button>
+        <button class="button" onclick="submitChoice('Ablehnen')">Ablehnen</button>
+    </div>
+    <div id="thanks" class="hidden">
+        <h1>Danke, das war's schon!</h1>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyXqylHmM_7fRQ4la8ePgrfUwTzFPwJaOsfJfDh0JfTRqhyyCtBDq4_RMVs_QlwEewZ/exec';
+
+        function submitChoice(choice) {
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ entscheidung: choice, timestamp: new Date().toISOString() })
+            });
+
+            document.getElementById('banner').classList.add('hidden');
+            document.getElementById('thanks').classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
